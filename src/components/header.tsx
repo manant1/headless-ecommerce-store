@@ -2,10 +2,16 @@ import * as React from "react"
 import { StaticImage } from "gatsby-plugin-image"
 import {HiShoppingCart} from "react-icons/hi"
 import { Link } from "gatsby"
+import { connect } from "react-redux"
+import { AppState } from "../state/create-store"
 
 const linkStyle = "h-full hover:bg-gray-100 pl-3 pr-3"
 
-const Header: React.FC = () => (
+interface HeaderProps {
+  qty: number;
+}
+
+const Header: React.FC<HeaderProps> = (props) => (
   <header
     className="bg-white shadow-md mb-6"
     style={{height: 75}}
@@ -28,10 +34,14 @@ const Header: React.FC = () => (
       <div className="grid grid-cols-3 h-full">
         <button className={linkStyle}>Sign Up</button>
         <button className={linkStyle}>Sign In</button>
-        <button className={linkStyle}><HiShoppingCart className={"inline"}/> Cart ({0})</button>
+        <Link to={"/cart"}>
+          <button className={linkStyle}><HiShoppingCart className={"inline"}/> Cart ({props.qty})</button>
+        </Link>
       </div>
     </div>
   </header>
 )
 
-export default Header
+export default connect((state: AppState) => ({
+  qty: state.cart.qty
+}), null)(Header)

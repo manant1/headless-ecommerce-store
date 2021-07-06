@@ -6,18 +6,35 @@ import { getPrice } from "../utils/helper"
 import Currency from "../components/currency"
 import QuantitySelector from "../components/quantity-selector"
 import { HiShoppingCart } from "react-icons/hi"
+import { addToCart } from "../state/actions/cart"
+import CartItem from "../shared/models/cart-item"
+import { connect } from "react-redux"
 
 interface ProductsTemplateProps {
   pageContext: {
     price: Price
-  }
+  },
+  dispatch: any
 }
 
-const ProductTemplate = (props) => {
+const ProductTemplate: React.FC<ProductsTemplateProps> = (props) => {
   const defaultQty = 1
+  const price: Price = props.pageContext.price;
   const [qty, setQuantity] = React.useState(defaultQty);
 
-  const price: Price = props.pageContext.price;
+  const addToCartClicked = () => {
+    const cartItem: CartItem = {
+      priceId: price.id,
+      productId: price.product.id,
+      price: parseFloat(getPrice(price.amount)),
+      currency: price.currency,
+      qty: qty,
+      name: price.product.name,
+      image: price.product.image
+    }
+    props.dispatch(addToCart(cartItem))
+  }
+
   return <Layout title={`Product - ${price.product.name}`} description={price.product.description}>
     <div className="section">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 h-full">
@@ -33,7 +50,7 @@ const ProductTemplate = (props) => {
               <p className="p-1.5 text-xs" style={{width: "fit-content"}}>SKU: {price.product.id}</p>
             </div>
             <QuantitySelector className={"mb-3 w-full"} defaultQty={defaultQty} quantityChanged={setQuantity}/>
-            <button
+            <button onClick={() => addToCartClicked()}
               className="w-full bg-transparent hover:bg-gray-200 text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded">
               <HiShoppingCart className={"inline"}/> Add to cart
             </button>
@@ -86,4 +103,4 @@ const ProductTemplate = (props) => {
   </Layout>
 }
 
-export default ProductTemplate
+export default connect()(ProductTemplate)
