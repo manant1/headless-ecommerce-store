@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.section {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.custom-number-input input:focus {
+    outline: none !important;
+}
+
+.custom-number-input button:focus {
+    outline: none !important;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media only screen and (max-width: 750px) {
+    .section {
+        max-width: 95%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+}

@@ -13,14 +13,20 @@
     "gatsby-plugin-react-helmet": "^4.8.0",
     "gatsby-plugin-sharp": "^3.8.0",
     "gatsby-source-filesystem": "^3.8.0",
+    "gatsby-source-stripe": "^3.2.2",
     "gatsby-transformer-sharp": "^3.8.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.2.0"
   },
   "devDependencies": {
-    "prettier": "2.3.2"
+    "autoprefixer": "^10.2.6",
+    "gatsby-plugin-postcss": "^4.8.0",
+    "postcss": "^8.3.5",
+    "prettier": "2.3.2",
+    "tailwindcss": "^2.2.4"
   },
   "keywords": [
     "gatsby"
