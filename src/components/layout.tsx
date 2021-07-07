@@ -2,6 +2,7 @@ import * as React from "react"
 import Header from "./header"
 import Seo from "./seo"
 import Footer from "./footer"
+import ToastProvider from "../toast.context"
 
 interface LayoutProps {
   children: object;

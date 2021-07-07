@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@netlify/functions": "^0.7.2",
     "@react-native-community/async-storage": "^1.12.1",
     "gatsby": "^3.8.1",
     "gatsby-plugin-gatsby-cloud": "^2.8.1",
@@ -25,7 +26,8 @@
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "stripe": "^8.160.0"
   },
   "devDependencies": {
     "@netlify/plugin-gatsby": "^1.0.3",
