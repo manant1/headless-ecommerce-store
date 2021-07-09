@@ -4,9 +4,15 @@ import axios from "axios"
 import { Link, navigate } from "gatsby"
 import { useToastState } from "../toast.context"
 import { ToastTypes } from "../shared/enum/toast-types"
-import { signUp } from "../utils/services/auth.service"
+import AuthService  from "../utils/services/auth.service"
+
+const authService = new AuthService()
 
 const SignUp: React.FC = () => {
+  if (authService.isLoggedIn()) {
+    navigate("/products")
+  }
+
   const { showToast } = useToastState()
 
   interface SignUpData {
@@ -15,7 +21,7 @@ const SignUp: React.FC = () => {
   }
 
   const [submitted, setSubmit] = React.useState<boolean>(false);
-
+  const [loading, setLoading] = React.useState<boolean>(false)
   const [formData, setFormData] = React.useState<SignUpData>({
     email: "",
     password: ""
@@ -23,15 +29,17 @@ const SignUp: React.FC = () => {
 
   const submit = (event) => {
     event.preventDefault();
+    setLoading(true)
     setSubmit(true);
-    if (formData.email && formData.password) {
-      signUp(formData).then(() => {
+    if (formData.email && formData.password && !loading) {
+      authService.signUp(formData).then(() => {
         navigate("/sign-in")
-      }).catch(() => {
+      }).catch((err: any) => {
         showToast({
           type: ToastTypes.DANGER,
-          message: "Sign up failed."
+          message: err.response?.data?.message || "Unexpected error"
         })
+        setLoading(false)
       })
     }
   }
@@ -62,7 +70,7 @@ const SignUp: React.FC = () => {
           <div className="flex items-center justify-between">
             <Link className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
                   to={"/sign-in"}> Sign In</Link>
-            <button
+            <button disabled={loading}
               className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded"
               type="submit">
               Sign Up

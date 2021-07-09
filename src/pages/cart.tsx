@@ -11,10 +11,14 @@ import QuantitySelector from "../components/quantity-selector"
 import { addToCart, removeCartItem } from "../state/actions/cart"
 import { useToastState } from "../toast.context"
 import { ToastTypes } from "../shared/enum/toast-types"
-import { createCheckoutSession } from "../utils/services/stripe.service"
+import StripeService from "../utils/services/stripe.service"
+import { UserState } from "../state/reducers/user"
+
+const stripeService = new StripeService()
 
 interface CartProps {
   cart: CartState,
+  user: UserState,
   dispatch: any
 }
 
@@ -67,14 +71,19 @@ const CartProducts: React.FC<CartProductsProps> = (props) => {
 
 const Cart: React.FC<CartProps> = (props) => {
   const { showToast } = useToastState()
+
+  const [loading, setLoading] = React.useState(false)
+
   const checkout = () => {
-    createCheckoutSession(props.cart.products).then((url: string) => {
+    setLoading(true)
+    stripeService.createCheckoutSession(props.cart.products, props.user.userData).then((url: string) => {
       typeof window !== "undefined" && window.open(url, "_self")
     }).catch(() => {
       showToast({
         type: ToastTypes.DANGER,
         message: "Error trying to invoke stripe checkout."
       })
+      setLoading(false)
     })
 
   }
@@ -99,7 +108,7 @@ const Cart: React.FC<CartProps> = (props) => {
               <span className="text-xl font-bold text-left justify-center"
                     style={{ lineHeight: "45px" }}>Subtotal: {getPrice(props.cart.sum * 100)} <Currency
                 code={props.cart.currency}/></span>
-              <button onClick={() => checkout()}
+              <button disabled={loading} onClick={() => checkout()}
                       className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded">
                 Checkout
               </button>
@@ -112,5 +121,6 @@ const Cart: React.FC<CartProps> = (props) => {
 }
 
 export default connect((state: AppState) => ({
-  cart: state.cart
+  cart: state.cart,
+  user: state.user
 }))(Cart)

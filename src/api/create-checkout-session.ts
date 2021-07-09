@@ -1,7 +1,7 @@
 const handler = async (req, res) => {
   if (req.method !== "POST") {
     res.status(404).json({
-      message: "GET /create-checkout-session not found"
+      message: `${req.method} /create-checkout-session not found`
     })
     return;
   }
@@ -19,7 +19,8 @@ const handler = async (req, res) => {
       payment_method_types: ['card'],
       line_items: getLineItems(req.body.products),
       mode: 'payment',
-      billing_address_collection: "required"
+      billing_address_collection: "required",
+      customer_email: req.body.user ? req.body.user.email : ""
     });
     res.status(200).json({
       url: session.url

@@ -1,8 +1,12 @@
 import * as React from "react"
 import Layout from "../components/layout"
 import { Link } from "gatsby"
+import { connect } from "react-redux"
+import { clearCart } from "../state/actions/cart"
 
-const CheckoutSuccessPage: React.FC = () => {
+const CheckoutSuccessPage: React.FC = (props: any) => {
+  props.dispatch(clearCart())
+
   return <Layout>
     <div className="section p-6">
       <h1 className={"text-center text-3xl font-bold mb-3"}>Order was paid successfully!</h1>
@@ -19,4 +23,4 @@ const CheckoutSuccessPage: React.FC = () => {
   </Layout>
 }
 
-export default CheckoutSuccessPage
+export default connect(() => {}, null)(CheckoutSuccessPage)

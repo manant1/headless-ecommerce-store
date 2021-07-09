@@ -49,6 +49,9 @@ export default (state = initialState, action) => {
         products: updatedProducts
       }
     }
+    case actionTypes.CLEAR_CART: {
+      return initialState
+    }
     default:
       return state
   }

@@ -15,7 +15,7 @@ export default ({ children }) => {
       if (toastList.length) {
         removeToast(toastList[0].id);
       }
-    }, 1500);
+    }, 3200);
     return () => {
       clearInterval(interval);
     }

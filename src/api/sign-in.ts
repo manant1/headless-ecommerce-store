@@ -3,7 +3,7 @@ import axios from "axios"
 const handler = async (req, res) => {
   if (req.method !== "POST") {
     res.status(404).json({
-      message: "GET /sing-in not found"
+      message: `${req.method} /sing-in not found`
     })
     return;
   }
@@ -13,14 +13,14 @@ const handler = async (req, res) => {
   }
 
   try {
-    await axios.post(`${process.env.NETLIFY_IDENTITY_URL}/token`, {
+    const {data} = await axios.post(`${process.env.GATSBY_NETLIFY_IDENTITY_URL}/token?grant_type=password&username=${req.body.email}&password=${req.body.password}`, {
       email: req.body.email,
       password: req.body.password
     })
-    res.status(200).json()
+    res.status(200).json(data)
   }
   catch (e) {
-    res.status(500).json({message: e.message});
+    res.status(500).json({message: e.response.data.error_description});
   }
 }
 

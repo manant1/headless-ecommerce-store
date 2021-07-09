@@ -3,9 +3,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import cartReducer, { CartState } from "./reducers/cart"
 import AsyncStorage from '@react-native-community/async-storage';
 import thunk from 'redux-thunk';
+import { UserState } from "./reducers/user"
 
 export interface AppState {
-  cart: CartState
+  cart: CartState,
+  user: UserState
 }
 
 const rootReducer = combineReducers({
