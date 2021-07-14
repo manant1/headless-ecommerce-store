@@ -24,4 +24,4 @@
 </ol>
 
 <h2>Demo</h2>
-<p><a href="https://headless-store.netlify.app" target="_blank"><b>Headless Ecommerce Store Demo</b></a></p>
+<p><a href="https://headless-store.netlify.app/products" target="__blank"><b>Headless Ecommerce Store Demo</b></a></p>
