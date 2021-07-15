@@ -24,7 +24,7 @@ const handler = async (req, res) => {
     if (req.body.user && req.body.user.email) {
       sessionConfig["customer_email"] = req.body.user.email
     }
-    session = await stripe.checkout.sessions.create()
+    session = await stripe.checkout.sessions.create(sessionConfig)
     res.status(200).json({
       url: session.url
     })
