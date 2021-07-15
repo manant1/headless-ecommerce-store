@@ -13,6 +13,7 @@ import { useToastState } from "../toast.context"
 import { ToastTypes } from "../shared/enum/toast-types"
 import StripeService from "../utils/services/stripe.service"
 import { UserState } from "../state/reducers/user"
+import {navigate} from "gatsby"
 
 const stripeService = new StripeService()
 
@@ -68,10 +69,6 @@ const CartProducts: React.FC<CartProductsProps> = (props) => {
 const Cart: React.FC<CartProps> = (props) => {
   const { showToast } = useToastState()
 
-  if (props.cart.qty === 0) {
-    return <p>Cart is empty</p>
-  }
-
   const [loading, setLoading] = React.useState(false)
 
   const checkout = () => {
@@ -90,32 +87,44 @@ const Cart: React.FC<CartProps> = (props) => {
 
   return <Layout>
     <div className="section">
-      <div className="container mx-auto mt-10">
-        <div className="flex md:shadow-md md:rounded-md my-10">
-          <div className="w-full bg-white px-3 py-3">
-            <div className="flex justify-between border-b pb-8">
-              <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-              <h2 className="font-semibold text-2xl">{props.cart.qty} Items</h2>
-            </div>
-            <div className="flex m-3">
-              <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-              <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
-              <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
-              <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
-            </div>
-            <CartProducts dispatch={props.dispatch} qty={props.cart.qty} products={props.cart.products}/>
-            <div className="flex justify-between border-t pt-3">
+      {props.cart.qty === 0 && (
+        <div>
+          <h1 className="font-semibold text-center text-2xl">Shopping Cart</h1>
+          <p className="font-semibold text-xl text-center">Shopping cart is empty</p>
+          <button onClick={() => navigate("/products")}
+                  className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded text-center">
+            Continue shopping
+          </button>
+        </div>
+      )}
+      {props.cart.qty !== 0 && (
+        <div className="container mx-auto mt-10">
+          <div className="flex md:shadow-md md:rounded-md my-10">
+            <div className="w-full bg-white px-3 py-3">
+              <div className="flex justify-between border-b pb-8">
+                <h1 className="font-semibold text-2xl">Shopping Cart</h1>
+                <h2 className="font-semibold text-2xl">{props.cart.qty} Items</h2>
+              </div>
+              <div className="flex m-3">
+                <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+              </div>
+              <CartProducts dispatch={props.dispatch} qty={props.cart.qty} products={props.cart.products}/>
+              <div className="flex justify-between border-t pt-3">
               <span className="text-xl font-bold text-left justify-center"
                     style={{ lineHeight: "45px" }}>Subtotal: {getPrice(props.cart.sum * 100)} <Currency
                 code={props.cart.currency}/></span>
-              <button disabled={loading} onClick={() => checkout()}
-                      className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded">
-                Checkout
-              </button>
+                <button disabled={loading} onClick={() => checkout()}
+                        className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded">
+                  Checkout
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   </Layout>
 }
