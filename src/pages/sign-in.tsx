@@ -9,7 +9,7 @@ import { addUser } from "../state/actions/user"
 
 const authService = new AuthService()
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC = (props) => {
   const { showToast }: any = React.useContext(ToastContext)
 
   interface SignInData {
@@ -30,7 +30,7 @@ const SignIn: React.FC = () => {
     setSubmit(true)
     if (formData.email && formData.password && !loading) {
       authService.singIn(formData).then(() => {
-        this.props.dispatch(addUser({
+        props.dispatch(addUser({
           email: formData.email
         }))
         navigate("/products")
@@ -104,5 +104,4 @@ const SignIn: React.FC = () => {
   </Layout>
 }
 
-export default connect(() => {
-}, null)(SignIn)
+export default connect()(SignIn)
