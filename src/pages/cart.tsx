@@ -89,10 +89,10 @@ const Cart: React.FC<CartProps> = (props) => {
     <div className="section">
       {props.cart.qty === 0 && (
         <div>
-          <h1 className="font-semibold text-center text-2xl">Shopping Cart</h1>
-          <p className="font-semibold text-xl text-center">Shopping cart is empty</p>
+          <h1 className="font-semibold text-center text-2xl mb-3">Shopping Cart</h1>
+          <p className="font-semibold text-xl text-center mb-3">Shopping cart is empty</p>
           <button onClick={() => navigate("/products")}
-                  className="bg-transparent text-black font-semibold py-2 px-4 border border-black hover:border-transparent rounded text-center">
+                  className="bg-transparent block text-black font-semibold py-2 px-4 border border-black hover:border-transparent mx-auto rounded text-center">
             Continue shopping
           </button>
         </div>
