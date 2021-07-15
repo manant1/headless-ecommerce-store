@@ -31,10 +31,6 @@ interface CartProductsProps {
 }
 
 const CartProducts: React.FC<CartProductsProps> = (props) => {
-  if (props.qty === 0) {
-    return <p>Cart is empty</p>
-  }
-
   const quantityChanged = (cartItem: CartItem, qty: number) => {
     props.dispatch(addToCart({
       ...cartItem,
@@ -71,6 +67,10 @@ const CartProducts: React.FC<CartProductsProps> = (props) => {
 
 const Cart: React.FC<CartProps> = (props) => {
   const { showToast } = useToastState()
+
+  if (props.cart.qty === 0) {
+    return <p>Cart is empty</p>
+  }
 
   const [loading, setLoading] = React.useState(false)
 
